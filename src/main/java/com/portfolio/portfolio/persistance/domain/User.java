@@ -1,5 +1,6 @@
 package com.portfolio.portfolio.persistance.domain;
 
+import com.portfolio.portfolio.presentation.dto.request.UpdateUserRequest;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -50,5 +51,43 @@ public class User {
         this.work = work;
         this.githubLink = githubLink;
         this.gmailLink = gmailLink;
+    }
+
+    public void updateName(String userName) {
+        this.userName = userName;
+    }
+
+    public void updateImage(String userImage) {
+        this.userImage = userImage;
+    }
+
+    public void updateBirth(LocalDateTime userBirth) {
+        this.userBirth = userBirth;
+    }
+
+    public void updateSimpleIntroduction(String simpleIntroduction) {
+        this.simpleIntroduction = simpleIntroduction;
+    }
+
+    public void updateWork(String work) {
+        this.work = work;
+    }
+
+    public void updateGithubLink(String githubLink) {
+        this.githubLink = githubLink;
+    }
+
+    public void updateGmailLink(String gmailLink) {
+        this.gmailLink = gmailLink;
+    }
+
+    public void updateAll(UpdateUserRequest request) {
+        updateName(request.userName());
+        updateImage(request.userImage());
+        updateBirth(request.userBirth());
+        updateSimpleIntroduction(request.simpleIntroduction());
+        updateWork(request.work());
+        updateGithubLink(request.githubLink());
+        updateGmailLink(request.gmailLink());
     }
 }
