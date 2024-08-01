@@ -39,4 +39,20 @@ public class Education {
         this.educationStartDate = educationStartDate;
         this.educationEndDate = educationEndDate;
     }
+
+    public void updateEducationTitle(String educationTitle) {
+        this.educationTitle = educationTitle;
+    }
+
+    public void updateEducationContent(String educationContent) {
+        this.educationContent = educationContent;
+    }
+
+    public void updateEducationStartDate(LocalDateTime educationStartDate) {
+        this.educationStartDate = educationStartDate;
+    }
+
+    public void updateEducationEndDate(LocalDateTime educationEndDate) {
+        this.educationEndDate = educationEndDate;
+    }
 }

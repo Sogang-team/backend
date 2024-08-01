@@ -6,6 +6,6 @@ import com.portfolio.portfolio.presentation.dto.request.CreateUserEducationReque
 import java.util.List;
 
 public interface UserEducationService {
-    List<UserEducation> findByUserId(Long userId);
+    List<Long> getEducationIdByUserId(Long userId);
     Long createUserEducation(CreateUserEducationRequest request);
 }
