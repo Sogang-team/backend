@@ -2,6 +2,7 @@ package com.portfolio.portfolio.persistance.domain;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -28,4 +29,13 @@ public class Feature {
     @ManyToOne
     @JoinColumn(name = "project_id")
     private Project project;
+
+    @Builder
+    public Feature(Long featureId, String featureTitle, String featureContent, String featureImage, Project project) {
+        this.featureId = featureId;
+        this.featureTitle = featureTitle;
+        this.featureContent = featureContent;
+        this.featureImage = featureImage;
+        this.project = project;
+    }
 }

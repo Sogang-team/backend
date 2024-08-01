@@ -2,6 +2,7 @@ package com.portfolio.portfolio.persistance.domain;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -23,4 +24,11 @@ public class UserTech {
     @ManyToOne
     @JoinColumn(name = "tech_stack_id")
     private TechStack techStack;
+
+    @Builder
+    public UserTech(Long userTechId, User user, TechStack techStack) {
+        this.userTechId = userTechId;
+        this.user = user;
+        this.techStack = techStack;
+    }
 }

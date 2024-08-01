@@ -2,6 +2,7 @@ package com.portfolio.portfolio.persistance.domain;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -42,4 +43,17 @@ public class Project {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+
+    @Builder
+    public Project(Long projectId, String projectTitle, LocalDateTime projectStartDate, LocalDateTime projectEndDate, Integer developerCount, String role, String projectUrl, String representImage, User user) {
+        this.projectId = projectId;
+        this.projectTitle = projectTitle;
+        this.projectStartDate = projectStartDate;
+        this.projectEndDate = projectEndDate;
+        this.developerCount = developerCount;
+        this.role = role;
+        this.projectUrl = projectUrl;
+        this.representImage = representImage;
+        this.user = user;
+    }
 }

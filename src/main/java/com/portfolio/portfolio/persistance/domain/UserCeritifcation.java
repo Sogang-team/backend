@@ -2,6 +2,7 @@ package com.portfolio.portfolio.persistance.domain;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -23,4 +24,11 @@ public class UserCeritifcation {
     @ManyToOne
     @JoinColumn(name = "certification_id")
     private Certification certification;
+
+    @Builder
+    public UserCeritifcation(Long userCertificationId, User user, Certification certification) {
+        this.userCertificationId = userCertificationId;
+        this.user = user;
+        this.certification = certification;
+    }
 }

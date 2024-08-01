@@ -2,6 +2,7 @@ package com.portfolio.portfolio.persistance.domain;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -30,4 +31,12 @@ public class Education {
     @Column(name = "education_end_date", nullable = false)
     private LocalDateTime educationEndDate;
 
+    @Builder
+    public Education(Long educationId, String educationTitle, String educationContent, LocalDateTime educationStartDate, LocalDateTime educationEndDate) {
+        this.educationId = educationId;
+        this.educationTitle = educationTitle;
+        this.educationContent = educationContent;
+        this.educationStartDate = educationStartDate;
+        this.educationEndDate = educationEndDate;
+    }
 }

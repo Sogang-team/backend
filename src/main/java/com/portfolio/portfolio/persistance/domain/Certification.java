@@ -2,6 +2,7 @@ package com.portfolio.portfolio.persistance.domain;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -26,4 +27,12 @@ public class Certification {
 
     @Column(name = "certification_date", nullable = false)
     private LocalDateTime certificationDate;
+
+    @Builder
+    public Certification(Long certificationId, String certificationName, String certificationContent, LocalDateTime certificationDate) {
+        this.certificationId = certificationId;
+        this.certificationName = certificationName;
+        this.certificationContent = certificationContent;
+        this.certificationDate = certificationDate;
+    }
 }

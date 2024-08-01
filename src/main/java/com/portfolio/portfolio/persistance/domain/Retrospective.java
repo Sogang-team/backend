@@ -2,6 +2,7 @@ package com.portfolio.portfolio.persistance.domain;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -25,4 +26,12 @@ public class Retrospective {
     @ManyToOne
     @JoinColumn(name = "project_id")
     private Project project;
+
+    @Builder
+    public Retrospective(Long retrospectiveId, String retrospectiveTitle, String retrospectiveContent, Project project) {
+        this.retrospectiveId = retrospectiveId;
+        this.retrospectiveTitle = retrospectiveTitle;
+        this.retrospectiveContent = retrospectiveContent;
+        this.project = project;
+    }
 }
