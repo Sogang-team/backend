@@ -4,11 +4,14 @@ import com.portfolio.portfolio.application.service.EducationService;
 import com.portfolio.portfolio.common.exception.ApplicationException;
 import com.portfolio.portfolio.common.exception.payload.ErrorStatus;
 import com.portfolio.portfolio.persistance.domain.Education;
+import com.portfolio.portfolio.persistance.domain.UserEducation;
 import com.portfolio.portfolio.persistance.repository.JpaEducationRepository;
+import com.portfolio.portfolio.persistance.repository.JpaUserEducationRepository;
 import com.portfolio.portfolio.presentation.dto.request.CreateEducationRequest;
 import com.portfolio.portfolio.presentation.dto.request.UpdateEducationRequest;
 import com.portfolio.portfolio.presentation.dto.response.ReadEducationResponse;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.annotations.Cascade;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +24,7 @@ import java.util.List;
 public class EducationServiceImpl implements EducationService {
 
     private final JpaEducationRepository educationRepository;
+    private final JpaUserEducationRepository userEducationRepository;
 
     @Transactional(readOnly = true)
     @Override
@@ -35,16 +39,14 @@ public class EducationServiceImpl implements EducationService {
 
     @Transactional(readOnly = true)
     @Override
-    public List<ReadEducationResponse> getEducationsByEducationIdList(List<Long> educationIdList) {
+    public List<ReadEducationResponse> getEducationByUserId(Long userId) {
 
         List<ReadEducationResponse> educationList = new ArrayList<>();
 
-        for(Long educationId : educationIdList) {
-            Education education = educationRepository.findById(educationId).orElseThrow(() -> new ApplicationException(
-                    ErrorStatus.toErrorStatus("해당 교육을 찾을 수 없습니다.", 404, LocalDateTime.now())
-            ));
+        List<UserEducation> userEducationList = userEducationRepository.findByUser_userId(userId);
 
-            educationList.add(ReadEducationResponse.from(education));
+        for(UserEducation userEducation : userEducationList) {
+            educationList.add(ReadEducationResponse.from(userEducation.getEducation()));
         }
 
         return educationList;

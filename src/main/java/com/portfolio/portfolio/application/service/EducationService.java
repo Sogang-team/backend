@@ -9,7 +9,7 @@ import java.util.List;
 public interface EducationService {
 
     ReadEducationResponse getEducationById(Long educationId);
-    List<ReadEducationResponse> getEducationsByEducationIdList(List<Long> educationIdList);
+    List<ReadEducationResponse> getEducationByUserId(Long userId);
     Long createEducation(CreateEducationRequest request);
     void updateEducationTitle(UpdateEducationRequest request);
     void updateEducationContent(UpdateEducationRequest request);

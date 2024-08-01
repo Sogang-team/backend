@@ -2,7 +2,6 @@ package com.portfolio.portfolio.presentation.controller;
 
 import com.portfolio.portfolio.application.service.EducationService;
 import com.portfolio.portfolio.application.service.UserEducationService;
-import com.portfolio.portfolio.persistance.domain.UserEducation;
 import com.portfolio.portfolio.presentation.dto.request.CreateEducationRequest;
 import com.portfolio.portfolio.presentation.dto.request.CreateUserEducationRequest;
 import com.portfolio.portfolio.presentation.dto.request.UpdateEducationRequest;
@@ -23,10 +22,7 @@ public class EducationController {
 
     @GetMapping("/education/{userId}")
     public ResponseEntity<List<ReadEducationResponse>> getEducationByUserId(@PathVariable Long userId) {
-
-        List<Long> educationIdList = userEducationService.getEducationIdByUserId(userId);
-
-        return ResponseEntity.ok(educationService.getEducationsByEducationIdList(educationIdList));
+        return ResponseEntity.ok(educationService.getEducationByUserId(userId));
     }
 
     @PostMapping("/education/{userId}")
@@ -71,6 +67,14 @@ public class EducationController {
     public ResponseEntity<Void> updateEducationStartDate(@RequestBody UpdateEducationRequest request) {
 
         educationService.updateEducationStartDate(request);
+
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/education")
+    public ResponseEntity<Void> deleteEducation(@RequestParam Long educationId) {
+
+        educationService.deleteEducation(educationId);
 
         return ResponseEntity.noContent().build();
     }

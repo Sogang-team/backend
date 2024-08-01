@@ -15,8 +15,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -25,21 +23,6 @@ public class UserEducationServiceImpl implements UserEducationService {
     private final JpaUserEducationRepository userEducationRepository;
     private final JpaUserRepository userRepository;
     private final JpaEducationRepository educationRepository;
-
-    @Transactional(readOnly = true)
-    @Override
-    public List<Long> getEducationIdByUserId(Long userId) {
-
-        List<Long> educationIdList = new ArrayList<>();
-
-        List<UserEducation> userEducationList = userEducationRepository.findByUser_userId(userId);
-
-        for (UserEducation userEducation : userEducationList) {
-            educationIdList.add(userEducation.getEducation().getEducationId());
-        }
-
-        return educationIdList;
-    }
 
     @Transactional
     @Override
