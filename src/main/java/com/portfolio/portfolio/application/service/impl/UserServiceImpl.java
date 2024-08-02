@@ -4,7 +4,9 @@ import com.portfolio.portfolio.application.service.UserService;
 import com.portfolio.portfolio.common.exception.ApplicationException;
 import com.portfolio.portfolio.common.exception.payload.ErrorStatus;
 import com.portfolio.portfolio.persistance.domain.User;
+import com.portfolio.portfolio.persistance.repository.JpaUserEducationRepository;
 import com.portfolio.portfolio.persistance.repository.JpaUserRepository;
+import com.portfolio.portfolio.persistance.repository.JpaUserTechRepository;
 import com.portfolio.portfolio.presentation.dto.request.CreateUserRequest;
 import com.portfolio.portfolio.presentation.dto.request.UpdateUserRequest;
 import com.portfolio.portfolio.presentation.dto.response.ReadUserResponse;
@@ -20,6 +22,8 @@ import java.time.LocalDateTime;
 public class UserServiceImpl implements UserService {
 
     private final JpaUserRepository userRepository;
+    private final JpaUserEducationRepository userEducationRepository;
+    private final JpaUserTechRepository userTechRepository;
 
     @Transactional(readOnly = true)
     @Override
@@ -128,6 +132,8 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public void deleteUser(Long userId) {
+        userEducationRepository.deleteByUser_userId(userId);
+        userTechRepository.deleteByUser_userId(userId);
         userRepository.deleteById(userId);
     }
 

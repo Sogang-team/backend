@@ -11,7 +11,6 @@ import com.portfolio.portfolio.presentation.dto.request.CreateEducationRequest;
 import com.portfolio.portfolio.presentation.dto.request.UpdateEducationRequest;
 import com.portfolio.portfolio.presentation.dto.response.ReadEducationResponse;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.annotations.Cascade;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -112,6 +111,7 @@ public class EducationServiceImpl implements EducationService {
     @Transactional
     @Override
     public void deleteEducation(Long id) {
+        userEducationRepository.deleteByEducation_educationId(id);
         educationRepository.deleteById(id);
     }
 }

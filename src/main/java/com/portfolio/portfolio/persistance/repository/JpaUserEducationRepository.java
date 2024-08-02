@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface JpaUserEducationRepository extends JpaRepository<UserEducation, Long> {
     List<UserEducation> findByUser_userId(Long userId);
+    void deleteByUser_userId(Long userId);
+    void deleteByEducation_educationId(Long educationId);
 }

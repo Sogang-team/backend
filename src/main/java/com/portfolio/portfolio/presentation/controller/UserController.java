@@ -1,5 +1,6 @@
 package com.portfolio.portfolio.presentation.controller;
 
+import com.portfolio.portfolio.application.service.UserEducationService;
 import com.portfolio.portfolio.application.service.UserService;
 import com.portfolio.portfolio.presentation.dto.request.CreateUserRequest;
 import com.portfolio.portfolio.presentation.dto.request.UpdateUserRequest;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     private final UserService userService;
+    private final UserEducationService userEducationService;
 
     @GetMapping("/user/{userId}")
     public ResponseEntity<ReadUserResponse> getUser(@PathVariable Long userId) {
@@ -83,7 +85,6 @@ public class UserController {
 
     @DeleteMapping("/user")
     public ResponseEntity<Void> deleteUser(@RequestParam Long userId) {
-
         userService.deleteUser(userId);
 
         return ResponseEntity.noContent().build();

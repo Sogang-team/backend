@@ -73,7 +73,6 @@ public class EducationController {
 
     @DeleteMapping("/education")
     public ResponseEntity<Void> deleteEducation(@RequestParam Long educationId) {
-
         educationService.deleteEducation(educationId);
 
         return ResponseEntity.noContent().build();
