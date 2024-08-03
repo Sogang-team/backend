@@ -35,6 +35,14 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 
+    @PutMapping("/user-english-name")
+    public ResponseEntity<Void> updateUserEnglishName(@RequestBody UpdateUserRequest updateUserRequest) {
+
+        userService.updateUserEnglishName(updateUserRequest);
+
+        return ResponseEntity.noContent().build();
+    }
+
     @PutMapping("/user-birth")
     public ResponseEntity<Void> updateUserBirth(@RequestBody UpdateUserRequest updateUserRequest) {
 

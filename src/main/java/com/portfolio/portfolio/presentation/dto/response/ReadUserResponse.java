@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 @Builder
 public record ReadUserResponse(
         String userName,
+        String userEnglishName,
         String userImage,
         LocalDateTime userBirth,
         String simpleIntroduction,
@@ -19,6 +20,7 @@ public record ReadUserResponse(
     public static ReadUserResponse from(User user) {
         return ReadUserResponse.builder()
                 .userName(user.getUserName())
+                .userEnglishName(user.getUserEnglishName())
                 .userImage(user.getUserImage())
                 .userBirth(user.getUserBirth())
                 .simpleIntroduction(user.getSimpleIntroduction())

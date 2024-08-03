@@ -12,6 +12,8 @@ public record UpdateUserRequest(
         @NotNull
         String userName,
 
+        String userEnglishName,
+
         String userImage,
 
         @NotNull

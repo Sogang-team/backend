@@ -23,6 +23,9 @@ public class User {
     @Column(name = "user_name", nullable = false)
     private String userName;
 
+    @Column(name = "user_english_name", nullable = false)
+    private String userEnglishName;
+
     @Column(name = "user_image")
     private String userImage;
 
@@ -42,9 +45,10 @@ public class User {
     private String gmailLink;
 
     @Builder
-    public User(Long userId, String userName, String userImage, LocalDateTime userBirth, String simpleIntroduction, String work, String githubLink, String gmailLink) {
+    public User(Long userId, String userName, String userEnglishName, String userImage, LocalDateTime userBirth, String simpleIntroduction, String work, String githubLink, String gmailLink) {
         this.userId = userId;
         this.userName = userName;
+        this.userEnglishName = userEnglishName;
         this.userImage = userImage;
         this.userBirth = userBirth;
         this.simpleIntroduction = simpleIntroduction;
@@ -81,8 +85,13 @@ public class User {
         this.gmailLink = gmailLink;
     }
 
+    public void updateUserEnglishName(String userEnglishName) {
+        this.userEnglishName = userEnglishName;
+    }
+
     public void updateAll(UpdateUserRequest request) {
         updateName(request.userName());
+        updateUserEnglishName(request.userEnglishName());
         updateImage(request.userImage());
         updateBirth(request.userBirth());
         updateSimpleIntroduction(request.simpleIntroduction());

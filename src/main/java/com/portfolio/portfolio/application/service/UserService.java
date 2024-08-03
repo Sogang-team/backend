@@ -8,6 +8,7 @@ public interface UserService {
     ReadUserResponse getUserById(Long userId);
     Long createUser(CreateUserRequest createUserRequest);
     void updateUserName(UpdateUserRequest updateUserRequest);
+    void updateUserEnglishName(UpdateUserRequest updateUserRequest);
     void updateUserBirth(UpdateUserRequest updateUserRequest);
     void updateUserImage(UpdateUserRequest updateUserRequest);
     void updateSimpleIntroduction(UpdateUserRequest updateUserRequest);

@@ -59,6 +59,18 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
+    public void updateUserEnglishName(UpdateUserRequest request) {
+
+        User user = userRepository.findById(request.userId())
+                .orElseThrow(() -> new ApplicationException(
+                        ErrorStatus.toErrorStatus("유저를 찾을 수 없습니다.", 404, LocalDateTime.now())
+                ));
+
+        user.updateUserEnglishName(request.userEnglishName());
+    }
+
+    @Transactional
+    @Override
     public void updateUserBirth(UpdateUserRequest request) {
 
         User user = userRepository.findById(request.userId())
