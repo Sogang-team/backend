@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "user_certification")
-public class UserCeritifcation {
+public class UserCertification {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,7 +26,7 @@ public class UserCeritifcation {
     private Certification certification;
 
     @Builder
-    public UserCeritifcation(Long userCertificationId, User user, Certification certification) {
+    public UserCertification(Long userCertificationId, User user, Certification certification) {
         this.userCertificationId = userCertificationId;
         this.user = user;
         this.certification = certification;

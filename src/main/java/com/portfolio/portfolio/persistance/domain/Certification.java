@@ -35,4 +35,16 @@ public class Certification {
         this.certificationContent = certificationContent;
         this.certificationDate = certificationDate;
     }
+
+    public void updateCertificationName(String certificationName) {
+        this.certificationName = certificationName;
+    }
+
+    public void updateCertificationContent(String certificationContent) {
+        this.certificationContent = certificationContent;
+    }
+
+    public void updateCertificationDate(LocalDateTime certificationDate) {
+        this.certificationDate = certificationDate;
+    }
 }
