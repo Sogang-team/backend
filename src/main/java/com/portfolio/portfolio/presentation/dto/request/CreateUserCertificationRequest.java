@@ -3,7 +3,9 @@ package com.portfolio.portfolio.presentation.dto.request;
 import com.portfolio.portfolio.persistance.domain.Certification;
 import com.portfolio.portfolio.persistance.domain.User;
 import com.portfolio.portfolio.persistance.domain.UserCertification;
+import lombok.Builder;
 
+@Builder
 public record CreateUserCertificationRequest(
 
         Long userId,

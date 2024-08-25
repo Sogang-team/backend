@@ -76,7 +76,7 @@ public class CertificationServiceImpl implements CertificationService {
 
     @Transactional
     @Override
-    public void updateEducationContent(UpdateCertificationRequest request) {
+    public void updateCertificationContent(UpdateCertificationRequest request) {
 
         Certification certification = certificationRepository.findById(request.certificationId())
                 .orElseThrow(() -> new ApplicationException(
@@ -88,7 +88,7 @@ public class CertificationServiceImpl implements CertificationService {
 
     @Transactional
     @Override
-    public void updateEducationDate(UpdateCertificationRequest request) {
+    public void updateCertificationDate(UpdateCertificationRequest request) {
 
         Certification certification = certificationRepository.findById(request.certificationId())
                 .orElseThrow(() -> new ApplicationException(

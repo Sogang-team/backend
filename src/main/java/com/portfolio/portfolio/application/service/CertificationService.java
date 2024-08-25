@@ -11,7 +11,7 @@ public interface CertificationService {
     List<ReadCertificationResponse> getCertificationByUserId(Long userId);
     Long createCertification(CreateCertificationRequest request);
     void updateCertificationName(UpdateCertificationRequest request);
-    void updateEducationContent(UpdateCertificationRequest request);
-    void updateEducationDate(UpdateCertificationRequest request);
+    void updateCertificationContent(UpdateCertificationRequest request);
+    void updateCertificationDate(UpdateCertificationRequest request);
     void deleteCertification(Long id);
 }
