@@ -34,4 +34,12 @@ public class Retrospective {
         this.retrospectiveContent = retrospectiveContent;
         this.project = project;
     }
+
+    public void updateRetrospectiveTitle(String retrospectiveTitle) {
+        this.retrospectiveTitle = retrospectiveTitle;
+    }
+
+    public void updateRetrospectiveContent(String retrospectiveContent) {
+        this.retrospectiveContent = retrospectiveContent;
+    }
 }

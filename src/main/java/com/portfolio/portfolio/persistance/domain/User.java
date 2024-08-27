@@ -8,6 +8,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -44,8 +46,17 @@ public class User {
     @Column(name = "gmail_link")
     private String gmailLink;
 
+    @OneToMany(mappedBy = "user", orphanRemoval = true, cascade = CascadeType.ALL)
+    private List<UserTech> userTechList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", orphanRemoval = true, cascade = CascadeType.ALL)
+    private List<UserEducation> userEducationList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", orphanRemoval = true, cascade = CascadeType.ALL)
+    private List<UserCertification> userCertificationList = new ArrayList<>();
+
     @Builder
-    public User(Long userId, String userName, String userEnglishName, String userImage, LocalDateTime userBirth, String simpleIntroduction, String work, String githubLink, String gmailLink) {
+    public User(Long userId, String userName, String userEnglishName, String userImage, LocalDateTime userBirth, String simpleIntroduction, String work, String githubLink, String gmailLink, List<UserTech> userTechList, List<UserEducation> userEducationList, List<UserCertification> userCertificationList) {
         this.userId = userId;
         this.userName = userName;
         this.userEnglishName = userEnglishName;
@@ -55,6 +66,9 @@ public class User {
         this.work = work;
         this.githubLink = githubLink;
         this.gmailLink = gmailLink;
+        this.userTechList = userTechList;
+        this.userEducationList = userEducationList;
+        this.userCertificationList = userCertificationList;
     }
 
     public void updateName(String userName) {
