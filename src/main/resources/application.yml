@@ -1,0 +1,29 @@
+spring:
+  application:
+    name: portfolio
+  datasource:
+    #    driver-class-name: org.h2.Driver
+    #    url: jdbc:h2:mem:db;MODE=MYSQL
+    #    username: sa
+    #    password: 1234
+    url: jdbc:mysql://127.0.0.1:3306/portfolio
+    username: root
+    password: 1548
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    open-in-view: false
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        use_sql_comments: true
+        highlight_sql: true
+        auto_quote_keyword: true
+    database: mysql
+    hibernate:
+      ddl-auto: update
+    defer-datasource-initialization: true
+    generate-ddl: true
+  sql:
+    init:
+      mode: always
