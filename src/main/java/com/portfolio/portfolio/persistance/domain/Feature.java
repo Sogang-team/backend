@@ -1,5 +1,6 @@
 package com.portfolio.portfolio.persistance.domain;
 
+import com.portfolio.portfolio.presentation.dto.request.UpdateFeatureRequest;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -37,5 +38,17 @@ public class Feature {
         this.featureContent = featureContent;
         this.featureImage = featureImage;
         this.project = project;
+    }
+
+    public void updateFeatureTitle(UpdateFeatureRequest request) {
+        this.featureTitle = request.featureTitle();
+    }
+
+    public void updateFeatureContent(UpdateFeatureRequest request) {
+        this.featureContent = request.featureContent();
+    }
+
+    public void updateFeatureImage(String imageUrl) {
+        this.featureImage = imageUrl;
     }
 }
