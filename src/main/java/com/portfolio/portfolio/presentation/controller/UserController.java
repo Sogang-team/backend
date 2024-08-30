@@ -1,6 +1,5 @@
 package com.portfolio.portfolio.presentation.controller;
 
-import com.portfolio.portfolio.application.service.UserEducationService;
 import com.portfolio.portfolio.application.service.UserService;
 import com.portfolio.portfolio.presentation.dto.request.CreateUserRequest;
 import com.portfolio.portfolio.presentation.dto.request.UpdateUserRequest;
