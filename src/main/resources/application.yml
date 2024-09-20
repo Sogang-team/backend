@@ -27,3 +27,5 @@ spring:
   sql:
     init:
       mode: always
+firebase:
+  storage-url: gs://portfolio-a06c6.appspot.com
