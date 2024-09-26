@@ -32,8 +32,8 @@ public class FeatureController {
     }
 
     @PostMapping("/feature")
-    public ResponseEntity<Long> createFeature(@RequestBody CreateFeatureRequest request) {
-        return new ResponseEntity<>(featureService.createFeature(request), HttpStatus.CREATED);
+    public ResponseEntity<Long> createFeature(@RequestPart CreateFeatureRequest request, @RequestParam(value = "featureImage", required = false) MultipartFile file) throws IOException {
+        return new ResponseEntity<>(featureService.createFeature(request, file), HttpStatus.CREATED);
     }
 
     @PutMapping("/feature/title")

@@ -1,21 +1,27 @@
 package com.portfolio.portfolio.application.service.impl;
 
 import com.portfolio.portfolio.application.service.FeatureService;
+import com.portfolio.portfolio.application.service.StorageService;
 import com.portfolio.portfolio.common.exception.ApplicationException;
 import com.portfolio.portfolio.common.exception.payload.ErrorStatus;
 import com.portfolio.portfolio.persistance.domain.Feature;
 import com.portfolio.portfolio.persistance.domain.Project;
+import com.portfolio.portfolio.persistance.domain.User;
 import com.portfolio.portfolio.persistance.repository.JpaFeatureRepository;
 import com.portfolio.portfolio.persistance.repository.JpaProjectRepository;
 import com.portfolio.portfolio.presentation.dto.request.CreateFeatureRequest;
+import com.portfolio.portfolio.presentation.dto.request.CreateUserRequest;
 import com.portfolio.portfolio.presentation.dto.request.UpdateFeatureRequest;
 import com.portfolio.portfolio.presentation.dto.response.ReadFeatureResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -23,6 +29,7 @@ public class FeatureServiceImpl implements FeatureService {
 
     private final JpaFeatureRepository featureRepository;
     private final JpaProjectRepository projectRepository;
+    private final StorageService storageService;
 
     @Transactional(readOnly = true)
     @Override
@@ -42,14 +49,26 @@ public class FeatureServiceImpl implements FeatureService {
 
     @Transactional
     @Override
-    public Long createFeature(CreateFeatureRequest createFeatureRequest) {
+    public Long createFeature(CreateFeatureRequest createFeatureRequest, MultipartFile file) throws IOException {
+
+
 
         Project project = projectRepository.findById(createFeatureRequest.projectId())
                 .orElseThrow(() -> new ApplicationException(
                         ErrorStatus.toErrorStatus("해당 프로젝트를 찾을 수 없습니다.", 404, LocalDateTime.now())
                 ));
 
-        return featureRepository.save(createFeatureRequest.toEntity(project)).getFeatureId();
+        Feature feature = null;
+
+        if(file != null && !file.isEmpty()) {
+            String imageUrl = storageService.uploadFirebaseBucket(file, createFeatureRequest.featureTitle());
+            CreateFeatureRequest request = CreateFeatureRequest.updateImage(imageUrl, createFeatureRequest);
+            feature = featureRepository.save(request.toEntity(project));
+        } else {
+            feature = featureRepository.save(createFeatureRequest.toEntity(project));
+        }
+
+        return feature.getFeatureId();
     }
 
     @Transactional
