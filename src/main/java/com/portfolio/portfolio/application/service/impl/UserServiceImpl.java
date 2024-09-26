@@ -1,5 +1,6 @@
 package com.portfolio.portfolio.application.service.impl;
 
+import com.portfolio.portfolio.application.service.StorageService;
 import com.portfolio.portfolio.application.service.UserService;
 import com.portfolio.portfolio.common.exception.ApplicationException;
 import com.portfolio.portfolio.common.exception.payload.ErrorStatus;
@@ -14,8 +15,11 @@ import lombok.RequiredArgsConstructor;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -24,6 +28,7 @@ public class UserServiceImpl implements UserService {
     private final JpaUserRepository userRepository;
     private final JpaUserEducationRepository userEducationRepository;
     private final JpaUserTechRepository userTechRepository;
+    private final StorageService storageService;
 
     @Transactional(readOnly = true)
     @Override
@@ -38,9 +43,17 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public Long createUser(CreateUserRequest createUserRequest) {
+    public Long createUser(CreateUserRequest createUserRequest, MultipartFile file) throws IOException {
 
-        User user = userRepository.save(createUserRequest.toEntity());
+        User user = null;
+
+        if(file != null && !file.isEmpty()) {
+            String imageUrl = storageService.uploadFirebaseBucket(file, createUserRequest.toEntity().getUserName());
+            CreateUserRequest request = CreateUserRequest.updateImageUrl(createUserRequest, imageUrl);
+            user = userRepository.save(request.toEntity());
+        } else {
+            user = userRepository.save(createUserRequest.toEntity());
+        }
 
         return user.getUserId();
     }
@@ -83,14 +96,16 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public void updateUserImage(UpdateUserRequest request) {
+    public void updateUserImage(UpdateUserRequest request, MultipartFile file) throws IOException {
 
         User user = userRepository.findById(request.userId())
                 .orElseThrow(() -> new ApplicationException(
                         ErrorStatus.toErrorStatus("유저를 찾을 수 없습니다.", 404, LocalDateTime.now())
                 ));
 
-        user.updateImage(request.userImage());
+        String imageUrl = storageService.uploadFirebaseBucket(file, request.userName() + UUID.randomUUID());
+
+        user.updateImage(imageUrl);
     }
 
     @Transactional

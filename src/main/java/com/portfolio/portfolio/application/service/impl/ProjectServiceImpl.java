@@ -1,6 +1,7 @@
 package com.portfolio.portfolio.application.service.impl;
 
 import com.portfolio.portfolio.application.service.ProjectService;
+import com.portfolio.portfolio.application.service.StorageService;
 import com.portfolio.portfolio.common.exception.ApplicationException;
 import com.portfolio.portfolio.common.exception.payload.ErrorStatus;
 import com.portfolio.portfolio.persistance.domain.Project;
@@ -13,9 +14,12 @@ import com.portfolio.portfolio.presentation.dto.response.ReadProjectResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -23,6 +27,7 @@ public class ProjectServiceImpl implements ProjectService {
 
     private final JpaProjectRepository projectRepository;
     private final JpaUserRepository userRepository;
+    private final StorageService storageService;
 
     @Transactional(readOnly = true)
     @Override
@@ -41,14 +46,22 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Transactional
     @Override
-    public Long createProject(CreateProjectRequest request) {
+    public Long createProject(CreateProjectRequest request, MultipartFile file) throws IOException {
 
         User user = userRepository.findById(request.userId())
                 .orElseThrow(() -> new ApplicationException(
                         ErrorStatus.toErrorStatus("해당 유저를 찾을 수 없습니다.", 404, LocalDateTime.now())
                 ));
 
-        Project project = projectRepository.save(request.toEntity(user));
+        Project project = null;
+
+        if(file != null && !file.isEmpty()) {
+            String imageUrl = storageService.uploadFirebaseBucket(file, request.projectTitle() + UUID.randomUUID());
+            CreateProjectRequest createProjectRequest = CreateProjectRequest.updateImage(imageUrl, request);
+            project = projectRepository.save(createProjectRequest.toEntity(user));
+        } else {
+            project = projectRepository.save(request.toEntity(user));
+        }
 
         return project.getProjectId();
     }
@@ -128,14 +141,16 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Transactional
     @Override
-    public void updateRepresentImage(UpdateProjectRequest request) {
+    public void updateRepresentImage(UpdateProjectRequest request, MultipartFile file) throws IOException {
 
         Project project = projectRepository.findById(request.projectId())
                 .orElseThrow(() -> new ApplicationException(
                         ErrorStatus.toErrorStatus("해당 프로젝트를 찾을 수 없습니다.", 404, LocalDateTime.now())
                 ));
 
-        project.updateRepresentImage(request.representImage());
+        String imageUrl = storageService.uploadFirebaseBucket(file, request.projectTitle() + UUID.randomUUID());
+
+        project.updateRepresentImage(imageUrl);
     }
 
     @Transactional

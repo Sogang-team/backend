@@ -8,7 +8,9 @@ import com.portfolio.portfolio.presentation.dto.response.ReadTechStackResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -25,9 +27,10 @@ public class TechStackController {
     }
 
     @PostMapping("/tech-stack/{userId}")
-    public ResponseEntity<Long> createTechStack(@RequestBody CreateTechStackRequest request, @PathVariable Long userId) {
+    public ResponseEntity<Long> createTechStack(@RequestBody CreateTechStackRequest request, @PathVariable Long userId, @RequestParam(name = "techStackImage", required = false) MultipartFile file) throws IOException {
 
-        Long techStackId = techStackService.createTechStack(request);
+        Long techStackId = techStackService.createTechStack(request, file);
+
         userTechStackService.createUserTechStack(CreateUserTechRequest.builder()
                 .techStackId(null)
                 .userId(userId)
