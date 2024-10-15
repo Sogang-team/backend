@@ -51,8 +51,6 @@ public class FeatureServiceImpl implements FeatureService {
     @Override
     public Long createFeature(CreateFeatureRequest createFeatureRequest, MultipartFile file) throws IOException {
 
-
-
         Project project = projectRepository.findById(createFeatureRequest.projectId())
                 .orElseThrow(() -> new ApplicationException(
                         ErrorStatus.toErrorStatus("해당 프로젝트를 찾을 수 없습니다.", 404, LocalDateTime.now())

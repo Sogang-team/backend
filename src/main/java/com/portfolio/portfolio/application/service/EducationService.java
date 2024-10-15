@@ -10,7 +10,7 @@ public interface EducationService {
 
     ReadEducationResponse getEducationById(Long educationId);
     List<ReadEducationResponse> getEducationByUserId(Long userId);
-    Long createEducation(CreateEducationRequest request);
+    Long createEducation(CreateEducationRequest request, Long userId);
     void updateEducationTitle(UpdateEducationRequest request);
     void updateEducationContent(UpdateEducationRequest request);
     void updateEducationStartDate(UpdateEducationRequest request);

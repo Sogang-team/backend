@@ -1,6 +1,7 @@
 package com.portfolio.portfolio.application.service.impl;
 
 import com.portfolio.portfolio.application.service.EducationService;
+import com.portfolio.portfolio.application.service.UserEducationService;
 import com.portfolio.portfolio.common.exception.ApplicationException;
 import com.portfolio.portfolio.common.exception.payload.ErrorStatus;
 import com.portfolio.portfolio.persistance.domain.Education;
@@ -8,6 +9,7 @@ import com.portfolio.portfolio.persistance.domain.UserEducation;
 import com.portfolio.portfolio.persistance.repository.JpaEducationRepository;
 import com.portfolio.portfolio.persistance.repository.JpaUserEducationRepository;
 import com.portfolio.portfolio.presentation.dto.request.CreateEducationRequest;
+import com.portfolio.portfolio.presentation.dto.request.CreateUserEducationRequest;
 import com.portfolio.portfolio.presentation.dto.request.UpdateEducationRequest;
 import com.portfolio.portfolio.presentation.dto.response.ReadEducationResponse;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +26,7 @@ public class EducationServiceImpl implements EducationService {
 
     private final JpaEducationRepository educationRepository;
     private final JpaUserEducationRepository userEducationRepository;
+    private final UserEducationService userEducationService;
 
     @Transactional(readOnly = true)
     @Override
@@ -40,22 +43,19 @@ public class EducationServiceImpl implements EducationService {
     @Override
     public List<ReadEducationResponse> getEducationByUserId(Long userId) {
 
-        List<ReadEducationResponse> educationList = new ArrayList<>();
-
         List<UserEducation> userEducationList = userEducationRepository.findByUser_userId(userId);
 
-        for(UserEducation userEducation : userEducationList) {
-            educationList.add(ReadEducationResponse.from(userEducation.getEducation()));
-        }
-
-        return educationList;
+        return userEducationList.stream().map(UserEducation::getEducation)
+                .map(ReadEducationResponse::from)
+                .toList();
     }
 
     @Transactional
     @Override
-    public Long createEducation(CreateEducationRequest request) {
+    public Long createEducation(CreateEducationRequest request, Long userId) {
 
         Education education = educationRepository.save(request.toEntity());
+        userEducationService.createUserEducation(CreateUserEducationRequest.from(education.getEducationId(), userId));
 
         return education.getEducationId();
     }

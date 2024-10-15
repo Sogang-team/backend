@@ -1,9 +1,7 @@
 package com.portfolio.portfolio.presentation.controller;
 
 import com.portfolio.portfolio.application.service.EducationService;
-import com.portfolio.portfolio.application.service.UserEducationService;
 import com.portfolio.portfolio.presentation.dto.request.CreateEducationRequest;
-import com.portfolio.portfolio.presentation.dto.request.CreateUserEducationRequest;
 import com.portfolio.portfolio.presentation.dto.request.UpdateEducationRequest;
 import com.portfolio.portfolio.presentation.dto.response.ReadEducationResponse;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +16,6 @@ import java.util.List;
 public class EducationController {
 
     private final EducationService educationService;
-    private final UserEducationService userEducationService;
 
     @GetMapping("/education/{userId}")
     public ResponseEntity<List<ReadEducationResponse>> getEducationByUserId(@PathVariable Long userId) {
@@ -27,16 +24,7 @@ public class EducationController {
 
     @PostMapping("/education/{userId}")
     public ResponseEntity<Long> createEducation(@RequestBody CreateEducationRequest request, @PathVariable Long userId) {
-
-        Long educationId = educationService.createEducation(request);
-
-        Long userEducationId = userEducationService.createUserEducation(
-                CreateUserEducationRequest.builder()
-                    .educationId(educationId)
-                    .userId(userId)
-                    .build());
-
-        return new ResponseEntity<>(userEducationId, HttpStatus.CREATED);
+        return new ResponseEntity<>(educationService.createEducation(request,userId), HttpStatus.CREATED);
     }
 
     @PutMapping("/education-title")

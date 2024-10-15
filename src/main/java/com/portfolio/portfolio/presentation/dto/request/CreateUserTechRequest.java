@@ -16,4 +16,11 @@ public record CreateUserTechRequest(
                 .techStack(techStack)
                 .build();
     }
+
+    public static CreateUserTechRequest from(Long userId, Long techStackId) {
+        return CreateUserTechRequest.builder()
+                .userId(userId)
+                .techStackId(techStackId)
+                .build();
+    }
 }

@@ -75,7 +75,7 @@ public class ProjectController {
         return ResponseEntity.noContent().build();
     }
 
-    @PutMapping("/project-title")
+    @PutMapping("/project-end")
     public ResponseEntity<Void> updateProjectEnd(@RequestBody UpdateProjectRequest request) {
 
         projectService.updateProjectEndDate(request);
