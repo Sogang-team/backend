@@ -18,7 +18,6 @@ import java.util.List;
 public class TechStackController {
 
     private final TechStackService techStackService;
-    private final UserTechStackService userTechStackService;
 
     @GetMapping("/tech-stack/{userId}")
     public ResponseEntity<List<ReadTechStackResponse>> readTechStack(@PathVariable Long userId) {
@@ -28,16 +27,7 @@ public class TechStackController {
 
     @PostMapping("/tech-stack/{userId}")
     public ResponseEntity<Long> createTechStack(@RequestBody CreateTechStackRequest request, @PathVariable Long userId, @RequestParam(name = "techStackImage", required = false) MultipartFile file) throws IOException {
-
-        Long techStackId = techStackService.createTechStack(request, file);
-
-        userTechStackService.createUserTechStack(CreateUserTechRequest.builder()
-                .techStackId(null)
-                .userId(userId)
-                .techStackId(techStackId)
-                .build());
-
-        return ResponseEntity.ok(techStackId);
+        return ResponseEntity.ok(techStackService.createTechStack(request, file, userId));
     }
 
     @DeleteMapping("/tech-stack")

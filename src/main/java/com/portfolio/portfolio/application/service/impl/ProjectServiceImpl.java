@@ -76,7 +76,6 @@ public class ProjectServiceImpl implements ProjectService {
                 ));
 
         project.updateProjectTitle(request.projectTitle());
-
     }
 
     @Transactional

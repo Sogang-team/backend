@@ -9,6 +9,6 @@ import java.util.List;
 
 public interface TechStackService {
     List<ReadTechStackResponse> getTechStackByUserId(Long userId);
-    Long createTechStack(CreateTechStackRequest request, MultipartFile file) throws IOException;
+    Long createTechStack(CreateTechStackRequest request, MultipartFile file, Long userId) throws IOException;
     void deleteTechStack(Long techStackId);
 }

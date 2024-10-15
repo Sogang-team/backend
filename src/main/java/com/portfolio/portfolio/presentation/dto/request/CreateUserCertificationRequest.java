@@ -20,4 +20,11 @@ public record CreateUserCertificationRequest(
                 .certification(certification)
                 .build();
     }
+
+    public static CreateUserCertificationRequest from(Long userId, Long certificationId) {
+        return CreateUserCertificationRequest.builder()
+                .userId(userId)
+                .certificationId(certificationId)
+                .build();
+    }
 }

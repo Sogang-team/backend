@@ -9,7 +9,7 @@ import java.util.List;
 public interface CertificationService {
     ReadCertificationResponse getCertificationById(Long certificationId);
     List<ReadCertificationResponse> getCertificationByUserId(Long userId);
-    Long createCertification(CreateCertificationRequest request);
+    Long createCertification(CreateCertificationRequest request, Long userId);
     void updateCertificationName(UpdateCertificationRequest request);
     void updateCertificationContent(UpdateCertificationRequest request);
     void updateCertificationDate(UpdateCertificationRequest request);

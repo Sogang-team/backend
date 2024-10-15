@@ -1,7 +1,6 @@
 package com.portfolio.portfolio.presentation.controller;
 
 import com.portfolio.portfolio.application.service.CertificationService;
-import com.portfolio.portfolio.application.service.UserCertificationService;
 import com.portfolio.portfolio.presentation.dto.request.*;
 import com.portfolio.portfolio.presentation.dto.response.ReadCertificationResponse;
 import lombok.RequiredArgsConstructor;
@@ -16,25 +15,15 @@ import java.util.List;
 public class CertificationController {
 
     private final CertificationService certificationService;
-    private final UserCertificationService userCertificationService;
 
     @GetMapping("/certification/{userId}")
-    public ResponseEntity<List<ReadCertificationResponse>> getEducationByUserId(@PathVariable Long userId) {
+    public ResponseEntity<List<ReadCertificationResponse>> getCertificationByUserId(@PathVariable Long userId) {
         return ResponseEntity.ok(certificationService.getCertificationByUserId(userId));
     }
 
     @PostMapping("/certification/{userId}")
-    public ResponseEntity<Long> createEducation(@RequestBody CreateCertificationRequest request, @PathVariable Long userId) {
-
-        Long certificationId = certificationService.createCertification(request);
-
-        Long userCertificationId = userCertificationService.createUserCertification(
-                CreateUserCertificationRequest.builder()
-                        .certificationId(certificationId)
-                        .userId(userId)
-                        .build());
-
-        return new ResponseEntity<>(userCertificationId, HttpStatus.CREATED);
+    public ResponseEntity<Long> createCertification(@RequestBody CreateCertificationRequest request, @PathVariable Long userId) {
+        return new ResponseEntity<>(certificationService.createCertification(request, userId), HttpStatus.CREATED);
     }
 
     @PutMapping("/certification-title")

@@ -17,4 +17,11 @@ public record CreateUserEducationRequest(
                 .user(user)
                 .build();
     }
+
+    public static CreateUserEducationRequest from(Long educationId, Long userId) {
+        return CreateUserEducationRequest.builder()
+                .userId(userId)
+                .educationId(educationId)
+                .build();
+    }
 }

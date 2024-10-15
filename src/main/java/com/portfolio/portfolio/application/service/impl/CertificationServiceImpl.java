@@ -1,6 +1,7 @@
 package com.portfolio.portfolio.application.service.impl;
 
 import com.portfolio.portfolio.application.service.CertificationService;
+import com.portfolio.portfolio.application.service.UserCertificationService;
 import com.portfolio.portfolio.common.exception.ApplicationException;
 import com.portfolio.portfolio.common.exception.payload.ErrorStatus;
 import com.portfolio.portfolio.persistance.domain.Certification;
@@ -8,6 +9,7 @@ import com.portfolio.portfolio.persistance.domain.UserCertification;
 import com.portfolio.portfolio.persistance.repository.JpaCertificationRepository;
 import com.portfolio.portfolio.persistance.repository.JpaUserCertificationRepository;
 import com.portfolio.portfolio.presentation.dto.request.CreateCertificationRequest;
+import com.portfolio.portfolio.presentation.dto.request.CreateUserCertificationRequest;
 import com.portfolio.portfolio.presentation.dto.request.UpdateCertificationRequest;
 import com.portfolio.portfolio.presentation.dto.response.ReadCertificationResponse;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +26,7 @@ public class CertificationServiceImpl implements CertificationService {
 
     private final JpaCertificationRepository certificationRepository;
     private final JpaUserCertificationRepository userCertificationRepository;
+    private final UserCertificationService userCertificationService;
 
     @Transactional(readOnly = true)
     @Override
@@ -41,22 +44,20 @@ public class CertificationServiceImpl implements CertificationService {
     @Override
     public List<ReadCertificationResponse> getCertificationByUserId(Long userId) {
 
-        List<ReadCertificationResponse> certificationList = new ArrayList<>();
-
         List<UserCertification> userCertificationList = userCertificationRepository.findByUser_userId(userId);
 
-        for(UserCertification userCertification : userCertificationList) {
-            certificationList.add(ReadCertificationResponse.from(userCertification.getCertification()));
-        }
-
-        return certificationList;
+        return userCertificationList.stream()
+                .map(UserCertification::getCertification)
+                .map(ReadCertificationResponse::from)
+                .toList();
     }
 
     @Transactional
     @Override
-    public Long createCertification(CreateCertificationRequest request) {
+    public Long createCertification(CreateCertificationRequest request, Long userId) {
 
         Certification certification = certificationRepository.save(request.toEntity());
+        userCertificationService.createUserCertification(CreateUserCertificationRequest.from(userId, certification.getCertificationId()));
 
         return certification.getCertificationId();
     }
@@ -71,7 +72,6 @@ public class CertificationServiceImpl implements CertificationService {
                         ));
 
         certification.updateCertificationName(request.certificationName());
-
     }
 
     @Transactional
