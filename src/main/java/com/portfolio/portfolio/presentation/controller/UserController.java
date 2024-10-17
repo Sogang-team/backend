@@ -21,7 +21,6 @@ import java.io.IOException;
 @Tag(name = "유저 정보 API", description = "유저 정보 API")
 @RestController
 @RequiredArgsConstructor
-@CrossOrigin(origins = "*")
 public class UserController {
 
     private final UserService userService;
